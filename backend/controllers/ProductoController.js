@@ -36,8 +36,18 @@ export const createProduct = async (req,res) =>{
    }
 }
 //-----------------------------------------------------------------
-export const updateProduct=(req,res) =>{
-    res.json({msg:"updateProduct"})
+export const updateProduct = async (req,res) =>{
+   try {
+    const {id}= req.params
+    const product = await ProductModel.findOneAndUpdate(
+        {_id: id},
+        req.body,
+        {new:true}
+    )
+    res.status(200).json(product)
+   } catch (error) {
+    res.status(500).json({message:error.message})
+   }
     }
 //-----------------------------------------------------------------
 
