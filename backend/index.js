@@ -1,14 +1,19 @@
-import express from 'express'
+import express, { urlencoded } from 'express'
 import  mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import router from './routes/routes.js'
+import cors from 'cors'
 //const cors = require('cors');
-
 const app=express();
 dotenv.config();
+app.use(cors());
+app.use(express.json()); // habilitamos para recibir json  
+
+app.unsubscribe(urlencoded({extended:true}))
+app.use('/api/products', router); 
 
 //const playerRoutes = require('./routes/player');
-//app.use(cors({ origin: true, credentials: true }));
+
 
 const port=process.env.PORT || 9000;
 
@@ -20,11 +25,11 @@ const port=process.env.PORT || 9000;
         .catch((error) =>console.error('ERROR AL CONECTAR 😪:',error)); 
 
 
-//middlewares
-app.use(express.json()); // habilitamos para recibir json  
 
-//ruta principal
-app.use('/api/products', router); 
+
+
+
+
 
 
 app.listen(port,()=> console.log('server conectado..😄. en el puerto:',port))
